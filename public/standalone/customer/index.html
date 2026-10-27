@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glowbook — Search Any Salon in Sri Lanka & Book Easily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="customer.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">
+        <div class="logo-badge">G</div>
+        <span>Glowbook <span style="font-size: 12px; color: var(--primary); font-weight: 700;">LK</span></span>
+      </a>
+      <div class="nav-actions">
+        <a href="../owner/index.html" class="btn btn-secondary">For Salons</a>
+        <a href="../admin/index.html" class="btn btn-outline">Admin Panel</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <span class="hero-tag">🇱🇰 Sri Lanka's Premier Salon Network</span>
+      <h1>Search any salon in Sri Lanka and book your appointment <em>easily</em>.</h1>
+      <p>One place to discover top-rated hair stylists, barbers, bridal studios, and spas island-wide. Zero signups, instant confirmation.</p>
+
+      <!-- Search Card -->
+      <div class="search-card">
+        <div class="search-field">
+          <span>🔍</span>
+          <input type="text" id="search-input" placeholder="Search salon name, city, or service (e.g. balayage, fade)..." />
+        </div>
+        <div class="search-field" style="max-width: 220px;">
+          <span>📍</span>
+          <select id="district-select">
+            <option value="all">All Districts</option>
+            <option value="colombo">Colombo District</option>
+            <option value="kandy">Kandy District</option>
+            <option value="galle">Galle District</option>
+            <option value="gampaha">Gampaha District</option>
+            <option value="kurunegala">Kurunegala District</option>
+            <option value="matara">Matara District</option>
+            <option value="jaffna">Jaffna District</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="category-chips">
+        <button class="chip active" data-category="all">All Salons</button>
+        <button class="chip" data-category="hair">Hair Styling</button>
+        <button class="chip" data-category="barber">Barbers & Gents</button>
+        <button class="chip" data-category="bridal">Bridal Couture</button>
+        <button class="chip" data-category="nails">Nail Lounges</button>
+        <button class="chip" data-category="facial">Facial & Skin</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Salons Grid Section -->
+  <main class="container">
+    <div class="salons-grid" id="salons-grid">
+      <!-- Injected dynamically via customer.js -->
+    </div>
+  </main>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-salon-name">Salon Name</h3>
+          <p id="modal-salon-city" style="font-size: 12px; color: var(--muted); margin-top: 2px;">City, District</p>
+        </div>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="booking-form">
+        <!-- 1. Select Services -->
+        <div class="form-group">
+          <label>1. Select Services or Packages</label>
+          <div id="services-list">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- 2. Stylist Selection -->
+        <div class="form-group">
+          <label>2. Choose Stylist / Artist</label>
+          <select id="staff-select">
+            <!-- Injected dynamically -->
+          </select>
+        </div>
+
+        <!-- 3. Time Slots -->
+        <div class="form-group">
+          <label>3. Select Appointment Time Slot</label>
+          <div class="slots-grid" id="slots-container">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- 4. Guest Details -->
+        <div class="form-group">
+          <label>4. Your Contact Details (Guest Booking)</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <input type="text" id="client-name" placeholder="Your Full Name" required />
+            <input type="tel" id="client-phone" placeholder="Phone (+94 7X XXX XXXX)" required />
+          </div>
+          <input type="email" id="client-email" placeholder="Email Address (for calendar invite)" />
+        </div>
+
+        <!-- 5. Live Summary -->
+        <div class="summary-box">
+          <div class="summary-row">
+            <span id="summary-services-count">1 service selected</span>
+            <span id="summary-duration">45 mins</span>
+          </div>
+          <div class="summary-row">
+            <span>Scheduled Slot:</span>
+            <strong id="summary-slot">10:00 AM</strong>
+          </div>
+          <div class="summary-row total">
+            <span>Estimated Total:</span>
+            <strong id="summary-total-price">LKR 0</strong>
+          </div>
+          <span style="display: block; font-size: 11px; color: var(--muted); margin-top: 6px;">
+            💳 Pay at Salon upon arrival. No credit card deposit required.
+          </span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 15px;">
+          Confirm Booking Instantly
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Vanilla JS Script -->
+  <script src="customer.js"></script>
+</body>
+</html>

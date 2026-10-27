@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <defs>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B6CF6" />
+      <stop offset="100%" stop-color="#5B3FD1" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="8" width="44" height="44" rx="14" fill="url(#glowGrad)" />
+  <path d="M28 17 L30.5 24 L37.5 25 L32 30 L33.5 37 L28 33.5 L22.5 37 L24 30 L18.5 25 L25.5 24 Z" fill="#FFFFFF" />
+  <text x="62" y="38" font-family="system-ui, sans-serif" font-size="28" font-weight="800" fill="#1E1B2E" letter-spacing="-0.5">Glow<tspan fill="#8B6CF6">book</tspan></text>
+  <circle cx="218" cy="22" r="3" fill="#F5B942" />
+</svg>

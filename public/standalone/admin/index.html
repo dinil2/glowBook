@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glowbook — Platform Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- Admin Sidebar -->
+  <aside class="admin-sidebar">
+    <div>
+      <a href="../index.html" class="admin-logo">
+        <div class="admin-logo-icon">🛡️</div>
+        <span>Glowbook <span style="font-size: 11px; color: var(--star-gold); display: block; font-weight: 700;">Admin Console</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link active">
+            <span>✓ Verify Payments</span>
+            <span class="badge-counter" id="pending-badge">2</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <span>🏢 Manage Salons</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <span>📜 Audit Logs</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 12px; font-size: 12px;">
+        <span style="color: var(--muted); display: block;">Signed in as:</span>
+        <strong style="color: white;">admin@glowbook.lk</strong>
+      </div>
+      <a href="../customer/index.html" class="btn btn-outline" style="width: 100%; border-color: rgba(255,255,255,0.2); color: white;">
+        Public Marketplace ↗
+      </a>
+    </div>
+  </aside>
+
+  <!-- Admin Main Content -->
+  <main class="admin-main">
+    <div class="header-row">
+      <div>
+        <h1 style="font-size: 28px; font-weight: 800; color: var(--ink);">Hatton National Bank (HNB) Verification Queue</h1>
+        <p style="font-size: 13px; color: var(--muted); margin-top: 2px;">
+          Review and approve offline wire transfers for salon Pro subscriptions.
+        </p>
+      </div>
+      <button class="btn btn-primary" onclick="exportSalonsCSV()">
+        📥 Export Salons CSV
+      </button>
+    </div>
+
+    <!-- Verification Queue Cards -->
+    <div style="margin-bottom: 36px;">
+      <h2 style="font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em;">
+        Payments Awaiting Review
+      </h2>
+      <div id="queue-container">
+        <!-- Injected via admin.js -->
+      </div>
+    </div>
+
+    <!-- Registered Salons Table -->
+    <div class="table-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 800; color: var(--ink); text-transform: uppercase; letter-spacing: 0.05em;">
+          Registered Salons Platform Roster
+        </h2>
+        <span style="font-size: 12px; color: var(--muted);">Click actions to manage status or grant 30-day Pro trial</span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Salon Name</th>
+              <th>District</th>
+              <th>Plan</th>
+              <th>Rating</th>
+              <th>Platform Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-salons-tbody">
+            <!-- Injected via admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Audit Logs -->
+    <div class="table-card">
+      <h2 style="font-size: 16px; font-weight: 800; color: var(--ink); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+        Immutable Platform Audit Log
+      </h2>
+      <div id="audit-list">
+        <!-- Injected via admin.js -->
+      </div>
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

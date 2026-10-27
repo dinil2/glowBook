@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glowbook — Standalone HTML/CSS/JS Architecture Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@1,500;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF8FF;
+      --surface: #FFFFFF;
+      --lavender: #F3EEFF;
+      --soft-purple: #E4D9FF;
+      --primary: #8B6CF6;
+      --primary-hover: #7A57E8;
+      --primary-deep: #5B3FD1;
+      --ink: #1E1B2E;
+      --muted: #6B6785;
+      --border: #E8E3F5;
+      --star-gold: #F5B942;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(243, 238, 255, 0.8) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(228, 217, 255, 0.6) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--lavender);
+      color: var(--primary-deep);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+      border: 1px solid var(--soft-purple);
+    }
+
+    h1 {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    h1 em {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    p.subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 28px;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(139, 108, 246, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(139, 108, 246, 0.12);
+      border-color: var(--primary);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--lavender);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .card-files {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--primary-deep);
+      margin-bottom: 24px;
+      line-height: 1.8;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(139, 108, 246, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .info-box strong {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge">Pure HTML · CSS · JS Architecture</div>
+      <h1>Glowbook <em>Standalone</em> Editions</h1>
+      <p class="subtitle">
+        Separated, clean, and beginner-friendly static web applications. Inspect, modify, and fix bugs directly in plain HTML, CSS, and JS files without any build tools.
+      </p>
+    </div>
+
+    <div class="grid">
+      <!-- Customer App -->
+      <div class="card">
+        <div>
+          <div class="card-icon">💇‍♀️</div>
+          <h2 class="card-title">Customer Experience</h2>
+          <p class="card-desc">
+            Guest booking engine for Sri Lanka. Search salons by district and service, browse portfolios, select time slots, and complete instant appointments with zero signup.
+          </p>
+          <div class="card-files">
+            📁 public/standalone/customer/<br>
+            ├── index.html<br>
+            ├── customer.css<br>
+            └── customer.js
+          </div>
+        </div>
+        <a href="customer/index.html" class="btn btn-primary">Open Customer Experience →</a>
+      </div>
+
+      <!-- Owner App -->
+      <div class="card">
+        <div>
+          <div class="card-icon">💼</div>
+          <h2 class="card-title">Salon Owner Portal</h2>
+          <p class="card-desc">
+            Partner dashboard for salon managers. Manage today's appointments, configure services and staff, inspect Free vs Pro usage meters (30 bookings cap), and initiate HNB bank transfer upgrades.
+          </p>
+          <div class="card-files">
+            📁 public/standalone/owner/<br>
+            ├── index.html<br>
+            ├── owner.css<br>
+            └── owner.js
+          </div>
+        </div>
+        <a href="owner/index.html" class="btn btn-primary">Open Owner Dashboard →</a>
+      </div>
+
+      <!-- Admin App -->
+      <div class="card">
+        <div>
+          <div class="card-icon">🛡️</div>
+          <h2 class="card-title">Platform Admin Panel</h2>
+          <p class="card-desc">
+            Hatton National Bank (HNB) offline payment verification queue, salon approvals, live MRR tracking, platform bookings ledger, and audit log generation.
+          </p>
+          <div class="card-files">
+            📁 public/standalone/admin/<br>
+            ├── index.html<br>
+            ├── admin.css<br>
+            └── admin.js
+          </div>
+        </div>
+        <a href="admin/index.html" class="btn btn-primary">Open Admin Console →</a>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Developer Guide:</strong>
+      Each folder contains strictly vanilla <strong>HTML5</strong>, <strong>CSS3</strong>, and <strong>ES6 JavaScript</strong>. You can open any <code>index.html</code> directly in Google Chrome, Edge, or Safari with double-click, edit the code in VS Code or Notepad, and immediately test changes without compiling.
+    </div>
+  </div>
+</body>
+</html>

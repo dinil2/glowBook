@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glowbook — Salon Owner Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="owner.css">
+  <style>
+    .plan-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .plan-btn {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--bg-color);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .plan-btn.selected {
+      border-color: var(--primary);
+      background: var(--lavender);
+    }
+    .bank-details-box {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(232, 227, 245, 0.6);
+    }
+    .copy-sm {
+      background: var(--surface-color);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Owner Header -->
+  <header class="owner-navbar">
+    <div class="container nav-row">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <a href="../index.html" style="text-decoration: none; color: var(--ink); font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+          <span style="width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px;">G</span>
+          Glowbook Partner
+        </a>
+
+        <!-- Switcher for Demo testing -->
+        <div class="salon-selector">
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;">Viewing Salon:</label>
+          <select id="salon-switcher">
+            <option value="costume">Salon Costume (Colombo 07 - Pro Plan)</option>
+            <option value="luxe">Luxe Hair & Nails (Nugegoda - Free 27/30)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div id="portal-plan-badge">
+          <!-- Injected via owner.js -->
+        </div>
+        <button class="btn btn-primary" onclick="openUpgradeModal()">
+          Upgrade to Pro
+        </button>
+        <a href="../customer/index.html" class="btn btn-outline">
+          Public Site ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Warning Banner for Free Cap -->
+    <div class="warning-banner" id="warning-banner" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 20px;">⚠️</span>
+        <span id="cap-warning-text">Cap Warning</span>
+      </div>
+      <button class="btn btn-primary" onclick="openUpgradeModal()" style="padding: 6px 14px; font-size: 12px;">
+        Upgrade Now (LKR 2,000/mo)
+      </button>
+    </div>
+
+    <!-- Salon Header & KPI Cards -->
+    <div style="margin-top: 28px;">
+      <h1 id="portal-salon-name" style="font-size: 26px; font-weight: 800; color: var(--ink);">Salon Name</h1>
+      <p style="font-size: 13px; color: var(--muted); margin-top: 2px;">Daily appointment timeline and subscription quota manager.</p>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Today's Appointments</div>
+        <div class="kpi-value" id="kpi-today-count">0</div>
+        <div class="kpi-sub">Scheduled for today</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">Monthly Quota Usage</div>
+        <div class="kpi-value" id="kpi-usage">0 / 30</div>
+        <div class="kpi-sub">Reset on 1st of month (Colombo)</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">Monthly Service Volume</div>
+        <div class="kpi-value" id="kpi-revenue">LKR 0</div>
+        <div class="kpi-sub">Estimated revenue</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">Guest Review Rating</div>
+        <div class="kpi-value" id="kpi-rating">★ 5.0</div>
+        <div class="kpi-sub">From verified appointments</div>
+      </div>
+    </div>
+
+    <!-- Today's Appointments Section -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Today's Guest Appointments</h2>
+        <span style="font-size: 12px; color: var(--muted);">Click actions to update status in real-time</span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Client Name & Ref</th>
+              <th>Selected Services</th>
+              <th>Time Slot</th>
+              <th>Total Value</th>
+              <th>Current Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="appointments-tbody">
+            <!-- Injected via owner.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- UPGRADE TO PRO MODAL (HNB BANK TRANSFER) -->
+  <div class="modal-overlay" id="upgrade-modal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+          <span style="font-size: 11px; font-weight: 800; color: var(--primary); text-transform: uppercase;">Unlock Unlimited Bookings</span>
+          <h2 style="font-size: 22px; font-weight: 800; color: var(--ink); margin-top: 2px;">Upgrade to Glowbook Pro</h2>
+        </div>
+        <button onclick="closeUpgradeModal()" style="background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--muted);">&times;</button>
+      </div>
+
+      <!-- Plan Period Selector -->
+      <label style="display: block; font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 8px; text-transform: uppercase;">
+        1. Select Subscription Period
+      </label>
+      <div class="plan-selector">
+        <div class="plan-btn selected" data-amount="2000">
+          <strong style="display: block; font-size: 14px;">1 Month</strong>
+          <span style="font-size: 12px; color: var(--muted);">LKR 2,000</span>
+        </div>
+        <div class="plan-btn" data-amount="5400">
+          <strong style="display: block; font-size: 14px;">3 Months</strong>
+          <span style="font-size: 12px; color: var(--emerald); font-weight: 700;">LKR 5,400 (-10%)</span>
+        </div>
+        <div class="plan-btn" data-amount="19200">
+          <strong style="display: block; font-size: 14px;">12 Months</strong>
+          <span style="font-size: 12px; color: var(--emerald); font-weight: 700;">LKR 19,200 (-20%)</span>
+        </div>
+      </div>
+
+      <!-- HNB Bank Details -->
+      <label style="display: block; font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 8px; text-transform: uppercase;">
+        2. Transfer to Hatton National Bank (HNB)
+      </label>
+      <div class="bank-details-box">
+        <div class="bank-row">
+          <span>Bank Name:</span>
+          <strong>Hatton National Bank (HNB)</strong>
+        </div>
+        <div class="bank-row">
+          <span>Account Name:</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>Glowbook LK Technologies (Pvt) Ltd</strong>
+            <button class="copy-sm" onclick="copyText('Glowbook LK Technologies (Pvt) Ltd')">Copy</button>
+          </div>
+        </div>
+        <div class="bank-row">
+          <span>Account Number:</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <strong style="font-family: monospace; font-size: 14px;">003010582914</strong>
+            <button class="copy-sm" onclick="copyText('003010582914')">Copy</button>
+          </div>
+        </div>
+        <div class="bank-row" style="border-bottom: none;">
+          <span>Branch:</span>
+          <strong>Colombo 03 Corporate Branch (Code: 089)</strong>
+        </div>
+      </div>
+
+      <!-- Mandatory Billing Code Reference Box -->
+      <label style="display: block; font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 4px; text-transform: uppercase;">
+        3. Enter this in your Transfer Remarks / Narration:
+      </label>
+      <div class="copy-box">
+        <div>
+          <span style="display: block; font-size: 11px; color: var(--muted); font-weight: 600;">Your Salon Transfer Reference</span>
+          <span class="copy-code" id="billing-code-text">SALONCOSTUME-4821</span>
+        </div>
+        <button class="btn btn-secondary" onclick="copyBillingCode()" style="padding: 8px 14px; font-size: 12px;">
+          Copy Reference
+        </button>
+      </div>
+
+      <!-- Proof Submission Form -->
+      <form onsubmit="submitOfflinePayment(event)">
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 6px; text-transform: uppercase;">
+            4. HNB Reference Number & Payer
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <input type="text" id="hnb-ref-input" placeholder="HNB Ref (e.g. HNB-9812401)" required style="padding: 10px 14px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-color);" />
+            <input type="text" id="payer-name-input" placeholder="Depositor Name / Salon" required style="padding: 10px 14px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-color);" />
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--lavender); border-radius: var(--radius-lg); margin-bottom: 20px;">
+          <span style="font-size: 13px; font-weight: 600; color: var(--ink);">Transfer Amount:</span>
+          <strong style="font-size: 18px; color: var(--primary-deep);" id="transfer-amount-display">LKR 2,000</strong>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 14px;">
+          Done Payment — Submit for Admin Verification
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="owner.js"></script>
+</body>
+</html>
